@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: cipher
+    runtime: node
+    plan: starter            # starter = $7/мес с диском. Для free убери disk
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CIPHER_SECRET
+        generateValue: true   # Render сам сгенерит секрет
+      - key: CORS_ORIGINS
+        value: https://cipher.onrender.com   # ← замени на свой домен
+      - key: DATA_DIR
+        value: /var/data
+      - key: MAX_FILE_MB
+        value: "30"
+    disk:
+      name: cipher-data
+      mountPath: /var/data
+      sizeGB: 1
